@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y build-essential wget xz-utils file \
 
 RUN wget -q -O binutils.tar.xz https://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.xz && \
     wget -q -O gcc.tar.xz https://ftp.gnu.org/gnu/gcc/${GCC_VERSION}/${GCC_VERSION}.tar.xz && \
-    tar xf binutils.tar.xz && tar xf gcc.tar.xz && rm -rf *xz
+    tar -xf binutils.tar.xz && tar xf gcc.tar.xz
 
 RUN mkdir binutils_mipsel && cd binutils_mipsel && \
     ../binutils-${BINUTILS_VERSION}/configure --prefix=${MIPSEL} --target=${TARGET} \
@@ -27,7 +27,7 @@ RUN wget https://ftp.gnu.org/gnu/gmp/gmp-6.2.0.tar.bz2 \
     mkdir -p gcc-${GCC_VERSION}/{gmp,mpfr,mpc} && \
     tar -xf gmp-6.2.0.tar.bz2 -C gcc-${GCC_VERSION}/gmp && \
     tar -xf mpc-1.2.1.tar.gz -C gcc-${GCC_VERSION}/mpc && \
-    tar -xf mpfr-4.1.0.tar.bz2 -C gcc-${GCC_VERSION}/mpfr
+    tar -xf mpfr-4.1.0.tar.bz2 -C gcc-${GCC_VERSION}/mpfr && rm -rf *tar*
 
 RUN mkdir gcc_mipsel && cd gcc_mipsel && \
     ../gcc-${GCC_VERSION}/configure --prefix=${MIPSEL} --target=${TARGET} \

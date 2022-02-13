@@ -16,13 +16,13 @@ TARGET=mipsel-none-elf
 mkdir -pv {stamps,tarballs}
 
 if [ ! -f stamps/binutils-download ]; then
-  wget -O tarballs/binutils.tar.xz https://ftp.gnu.org/pub/gnu/binutils/binutils-${BINUTILS_VER}.tar.xz
+  wget -q https://ftp.gnu.org/pub/gnu/binutils/binutils-${BINUTILS_VER}.tar.xz
   touch stamps/binutils-download
 fi
 
 if [ ! -f stamps/binutils-extract ]; then
   mkdir -pv binutils-{build,source}
-  tar -xf tarballs/binutils.tar.xz -C binutils-source --strip 1
+  tar -xf binutils.tar.xz -C binutils-source --strip 1
   touch stamps/binutils-extract
 fi
 
@@ -53,13 +53,13 @@ if [ ! -f stamps/binutils-install ]; then
 fi
 
 if [ ! -f stamps/gcc-download ]; then
-  wget -q -O tarballs/gcc.tar.xz https://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER}.tar.xz
+  wget -q https://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER}.tar.xz
   touch stamps/gcc-download
 fi
 
 if [ ! -f stamps/gcc-extract ]; then
   mkdir -pv gcc-{build,source}
-  tar -xf tarballs/gcc.tar.xz -C gcc-source --strip 1
+  tar -xf gcc.tar.xz -C gcc-source --strip 1
   touch stamps/gcc-extract
 fi
 
@@ -99,7 +99,7 @@ if [ ! -f stamps/gcc-install ]; then
   touch stamps/gcc-install
 fi
 
-rm -rf tarballs
+rm -rf *xz
 rm -rf *-source
 rm -rf *-build
 rm -rf stamps

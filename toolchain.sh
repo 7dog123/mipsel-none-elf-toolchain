@@ -13,7 +13,7 @@ BINUTILS_VER=2.36
 GCC_VER=11.1.0
 TARGET=mipsel-none-elf
 
-wget -q https://ftp.gnu.org/pub/gnu/binutils/binutils-${BINUTILS_VER}.tar.xz
+wget -q -O binutils.tar.xz https://ftp.gnu.org/pub/gnu/binutils/binutils-${BINUTILS_VER}.tar.xz
 
 mkdir -pv binutils-{build,source}
 tar -xf binutils.tar.xz -C binutils-source --strip 1
@@ -27,7 +27,7 @@ pushd binutils-build
 make --quiet -j${numproc} install-strip
 pop
 
-wget -q https://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER}.tar.xz
+wget -q -O gcc.tar.xz https://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER}.tar.xz
 
 mkdir -pv gcc-{build,source}
 tar -xf gcc.tar.xz -C gcc-source --strip 1

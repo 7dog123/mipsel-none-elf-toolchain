@@ -13,8 +13,7 @@ RUN apt-get update && apt-get install -y build-essential wget xz-utils zlib1g-de
 
 RUN wget -q -O binutils.tar.xz ftp://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.xz && \
     wget -q -O gcc.tar.xz https://ftp.gnu.org/gnu/gcc/${GCC_VERSION}/${GCC_VERSION}.tar.xz && \
-    tar xf binutils.tar.xz && tar xf gcc.tar.xz && rm -rf *xz && cd gcc-${GCC_VERSION} && \
-    ./contrib/download_prerequisites
+    tar xf binutils.tar.xz && tar xf gcc.tar.xz && rm -rf *xz && cd gcc-${GCC_VERSION} && ./contrib/download_prerequisites
 
 RUN mkdir binutils_mipsel && cd binutils_mipsel && \
     ../binutils-${BINUTILS_VERSION}/configure --prefix=${MIPSEL} --target=${GCC_TARGET} \

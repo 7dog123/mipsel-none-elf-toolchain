@@ -14,4 +14,4 @@ WORKDIR . /mipsel-none-elf-toolchain
 RUN apt-get update --quiet && apt-get install --quiet -y build-essential wget xz-utils zlib1g-dev tar autoconf automake && \
     apt-get clean
 
-RUN ./toolchain.sh
+RUN cd /mipsel-none-elf-toolchain && ./toolchain.sh

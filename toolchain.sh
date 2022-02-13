@@ -12,13 +12,11 @@ numproc=`getnumproc`
 BINUTILS_VER=2.36
 GCC_VER=11.1.0
 TARGET=mipsel-none-elf
-BINUTILS="https://ftp.gnu.org/pub/gnu/binutils/binutils-${BINUTILS_VER}.tar.xz"
-GCC="https://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER=}.tar.xz"
 
 mkdir -pv {stamps,tarballs}
 
 if [ ! -f stamps/binutils-download ]; then
-  wget ${BINUTILS} -O tarballs/binutils.tar.xz
+  wget -O tarballs/binutils.tar.xz https://ftp.gnu.org/pub/gnu/binutils/binutils-${BINUTILS_VER}.tar.xz
   touch stamps/binutils-download
 fi
 
@@ -55,7 +53,7 @@ if [ ! -f stamps/binutils-install ]; then
 fi
 
 if [ ! -f stamps/gcc-download ]; then
-  wget -q ${GCC} -O tarballs/gcc.tar.xz
+  wget -q -O tarballs/gcc.tar.xz https://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER}.tar.xz
   touch stamps/gcc-download
 fi
 

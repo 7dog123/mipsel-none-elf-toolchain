@@ -12,8 +12,8 @@ numproc=`getnumproc`
 BINUTILS_VER=2.36
 GCC_VER=11.1.0
 TARGET=mipsel-none-elf
-BINUTILS="ftp://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VER}.tar.bz2"
-GCC="ftp://ftp.gnu.org/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER=}.tar.gz"
+BINUTILS="https://ftp.gnu.org/pub/gnu/binutils/binutils-${BINUTILS_VER}.tar.xz"
+GCC="https://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER=}.tar.xz"
 
 mkdir -pv {stamps,tarballs}
 
@@ -65,6 +65,14 @@ if [ ! -f stamps/gcc-extract ]; then
   touch stamps/gcc-extract
 fi
 
+if [ ! -f stamps/download_prerequisites ]; then
+  pushd gcc-source
+  ./contrib/download_prerequisites
+  popd
+
+  touch stamps/download_prerequisites
+fi
+
 if [ ! -f stamps/gcc-configure ]; then
   pushd gcc-build
   ../gcc-${GCC_VER}/configure --quiet --prefix=${MIPSEL} \
@@ -93,8 +101,8 @@ if [ ! -f stamps/gcc-install ]; then
   touch stamps/gcc-install
 fi
 
-rm -rf "${SCRIPT_DIR}"/../tools/tarballs
-rm -rf "${SCRIPT_DIR}"/../tools/*-source
-rm -rf "${SCRIPT_DIR}"/../tools/*-build
-rm -rf "${SCRIPT_DIR}"/../tools/stamps
+rm -rf tarballs
+rm -rf *-source
+rm -rf *-build
+rm -rf stamps
 exit 0

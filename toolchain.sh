@@ -15,7 +15,7 @@ TARGET=mipsel-none-elf
 BINUTILS="ftp://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VER}.tar.bz2"
 GCC="ftp://ftp.gnu.org/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER=}.tar.gz"
 
-mkdir -p {stamps,tarballs}
+mkdir -pv {stamps,tarballs}
 
 if [ ! -f stamps/binutils-download ]; then
   wget "${BINUTILS}" -O "tarballs/$(basename ${BINUTILS})"
@@ -23,7 +23,7 @@ if [ ! -f stamps/binutils-download ]; then
 fi
 
 if [ ! -f stamps/binutils-extract ]; then
-  mkdir -p binutils-{build,source}
+  mkdir -pv binutils-{build,source}
   tar -xf tarballs/$(basename ${BINUTILS}) -C binutils-source --strip 1
   touch stamps/binutils-extract
 fi
@@ -60,7 +60,7 @@ if [ ! -f stamps/gcc-download ]; then
 fi
 
 if [ ! -f stamps/gcc-extract ]; then
-  mkdir -p gcc-{build,source}
+  mkdir -pv gcc-{build,source}
   tar -xf tarballs/$(basename ${GCC}) -C gcc-source --strip 1
   touch stamps/gcc-extract
 fi

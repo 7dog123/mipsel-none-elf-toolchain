@@ -12,8 +12,8 @@ ENV PATH $PATH:${MIPSEL}/bin
 RUN apt-get update && apt-get install -y build-essential wget xz-utils file \
     zlib1g-dev tar autoconf automake && apt-get clean
 
-RUN wget -q -O binutils.tar.xz https://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.xz && \
-    wget -q -O gcc.tar.xz https://ftp.gnu.org/gnu/gcc/${GCC_VERSION}/${GCC_VERSION}.tar.xz && \
+RUN wget -q -O binutils.tar.xz https://ftp.gnu.org/pub/gnu/binutils/binutils-2.36.tar.xz && \
+    wget -q -O gcc.tar.xz https://ftp.gnu.org/pub/gnu/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz && \
     tar -xf binutils.tar.xz && tar xf gcc.tar.xz
 
 RUN mkdir binutils_mipsel && cd binutils_mipsel && \

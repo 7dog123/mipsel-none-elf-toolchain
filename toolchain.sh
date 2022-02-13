@@ -18,13 +18,13 @@ GCC="ftp://ftp.gnu.org/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER=}.tar.gz"
 mkdir -pv {stamps,tarballs}
 
 if [ ! -f stamps/binutils-download ]; then
-  wget "${BINUTILS}" -O "tarballs/$(basename ${BINUTILS})"
+  wget -q -O tarballs/binutils.tar.xz "${BINUTILS}"
   touch stamps/binutils-download
 fi
 
 if [ ! -f stamps/binutils-extract ]; then
   mkdir -pv binutils-{build,source}
-  tar -xf tarballs/$(basename ${BINUTILS}) -C binutils-source --strip 1
+  tar -xf tarballs/binutils.tar.xz -C binutils-source --strip 1
   touch stamps/binutils-extract
 fi
 
@@ -55,13 +55,13 @@ if [ ! -f stamps/binutils-install ]; then
 fi
 
 if [ ! -f stamps/gcc-download ]; then
-  wget "${GCC}" -O "tarballs/$(basename ${GCC})"
+  wget -q -O tarballs/gcc.tar.xz "${GCC}"
   touch stamps/gcc-download
 fi
 
 if [ ! -f stamps/gcc-extract ]; then
   mkdir -pv gcc-{build,source}
-  tar -xf tarballs/$(basename ${GCC}) -C gcc-source --strip 1
+  tar -xf tarballs/gcc.tar.xz -C gcc-source --strip 1
   touch stamps/gcc-extract
 fi
 

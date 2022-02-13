@@ -18,7 +18,7 @@ GCC="https://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER=}.tar.xz"
 mkdir -pv {stamps,tarballs}
 
 if [ ! -f stamps/binutils-download ]; then
-  wget -q -O tarballs/binutils.tar.xz "${BINUTILS}"
+  wget ${BINUTILS} -O tarballs/binutils.tar.xz
   touch stamps/binutils-download
 fi
 
@@ -55,7 +55,7 @@ if [ ! -f stamps/binutils-install ]; then
 fi
 
 if [ ! -f stamps/gcc-download ]; then
-  wget -q -O tarballs/gcc.tar.xz "${GCC}"
+  wget -q ${GCC} -O tarballs/gcc.tar.xz
   touch stamps/gcc-download
 fi
 

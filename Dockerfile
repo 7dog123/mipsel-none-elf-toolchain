@@ -11,7 +11,9 @@ COPY toolchain.sh /mipsel-none-elf-toolchain
 
 WORKDIR . /mipsel-none-elf-toolchain
 
-RUN apt-get update --quiet && apt-get install --quiet -y build-essential wget xz-utils zlib1g-dev tar autoconf automake && \
+RUN apt-get update && apt-get install -y build-essential wget xz-utils \
+    zlib1g-dev tar autoconf automake && \
     apt-get clean
 
-RUN cd /mipsel-none-elf-toolchain && ./toolchain.sh
+RUN cd /mipsel-none-elf-toolchain && chmod 755 toolchain.sh && \
+    ./toolchain.sh

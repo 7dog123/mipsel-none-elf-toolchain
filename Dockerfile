@@ -19,18 +19,6 @@ COPY ./toolchain.sh /tmp/toolchain.sh
 WORKDIR /tmp
 RUN ./toolchain.sh
 
-# Strip executables
-RUN find ${MIPSEL}/bin -type f | xargs strip
-RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/plugin/gengtype
-RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/liblto_plugin.so
-RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/lto-wrapper
-RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/collect2
-RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/cc1plus
-RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/cc1
-RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/install-tools/fixincl
-RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/lto1
-RUN rm -rf ${MIPSEL}/share/locale/*
-
 # Stage 2 - Prepare minimal image
 FROM ubuntu:20.04
 ARG MIPSEL=/cross-mipsel-none-elf

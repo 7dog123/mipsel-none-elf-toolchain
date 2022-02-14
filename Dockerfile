@@ -23,13 +23,13 @@ RUN mkdir binutils_mipsel && cd binutils_mipsel && \
 
 RUN wget https://ftp.gnu.org/gnu/gmp/gmp-6.2.0.tar.bz2 \
     https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz \
-    https://ftp.gnu.org/gnu/mpfr/mpfr-3.1.0.tar.bz2 && \
+    https://ftp.gnu.org/gnu/mpfr/mpfr-3.1.4.tar.bz2 && \
     mkdir -pv gcc-${GCC_VERSION}/gmp && \
     mkdir -pv gcc-${GCC_VERSION}/mpfr && \
     mkdir -pv gcc-${GCC_VERSION}/mpc && \
     tar -xf gmp-6.2.0.tar.bz2 -C gcc-${GCC_VERSION}/gmp && \
     tar -xf mpc-1.2.1.tar.gz -C gcc-${GCC_VERSION}/mpc && \
-    tar -xf mpfr-3.1.0.tar.bz2 -C gcc-${GCC_VERSION}/mpfr && rm -rf *tar*
+    tar -xf mpfr-3.1.4.tar.bz2 -C gcc-${GCC_VERSION}/mpfr && rm -rf *tar*
 
 RUN mkdir gcc_mipsel && cd gcc_mipsel && \
     ../gcc-${GCC_VERSION}/configure --prefix=${MIPSEL} --target=${TARGET} \

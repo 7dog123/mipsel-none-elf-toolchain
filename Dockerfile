@@ -9,11 +9,11 @@ ARG TARGET=mipsel-none-elf
 ENV MIPSEL /usr/local/cross-mipsel-none-elf
 ENV PATH $PATH:${MIPSEL}/bin
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential wget xz-utils file \
-    zlib1g-dev tar autoconf automake texinfo libmpc-dev libmpfr-dev libgmp-dev && rm -rf /var/lib/apt/lists/
+RUN apt-get update && apt-get --no-install-recommends -y install build-essential wget xz-utils file \
+    zlib1g-dev apt-utils autoconf automake texinfo libmpc-dev libmpfr-dev libgmp-dev && rm -rf /var/lib/apt/lists/
 
-RUN wget -q -O binutils.tar.xz https://ftp.gnu.org/pub/gnu/binutils/binutils-2.36.tar.xz && \
-    wget -q -O gcc.tar.xz https://ftp.gnu.org/pub/gnu/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz && \
+RUN wget -O binutils.tar.xz https://ftp.gnu.org/pub/gnu/binutils/binutils-2.36.tar.xz && \
+    wget -O gcc.tar.xz https://ftp.gnu.org/pub/gnu/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz && \
     tar xf binutils.tar.xz && tar xf gcc.tar.xz
 
 RUN mkdir binutils_mipsel && cd binutils_mipsel && \

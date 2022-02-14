@@ -10,7 +10,8 @@ ENV MIPSEL /usr/local/cross-mipsel-none-elf
 ENV PATH $PATH:${MIPSEL}/bin
 
 RUN apt-get update && apt-get --no-install-recommends -y install build-essential wget xz-utils file \
-    zlib1g-dev apt-utils autoconf automake texinfo libmpc-dev libmpfr-dev libgmp-dev && rm -rf /var/lib/apt/lists/
+    zlib1g-dev apt-utils autoconf automake texinfo libmpc-dev libmpfr-dev libgmp-dev ca-certificates && \
+    rm -rf /var/lib/apt/lists/
 
 RUN wget -O binutils.tar.xz https://ftp.gnu.org/pub/gnu/binutils/binutils-2.36.tar.xz && \
     wget -O gcc.tar.xz https://ftp.gnu.org/pub/gnu/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz && \

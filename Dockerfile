@@ -19,12 +19,12 @@ RUN wget -q -O binutils.tar.xz https://ftp.gnu.org/pub/gnu/binutils/binutils-2.3
 RUN mkdir binutils_mipsel && cd binutils_mipsel && \
     ../binutils-${BINUTILS_VERSION}/configure --prefix=${MIPSEL} --target=${TARGET} \
     --disable-docs --disable-nls --with-float=soft && \
-    make -j $PROC_NR && make install-strip
+    make && make install-strip
 
 RUN mkdir gcc_mipsel && cd gcc_mipsel && \
     ../gcc-${GCC_VERSION}/configure --prefix=${MIPSEL} --target=${TARGET} \
     --disable-docs --disable-nls --disable-libada --disable-libssp --disable-libquadmath --disable-libstdc++-v3 \
     --with-float=soft --enable-languages=c,c++ --with-gnu-as --with-gnu-ld && \
-    make -j $PROC_NR && make install-strip
+    make && make install-strip
 
 

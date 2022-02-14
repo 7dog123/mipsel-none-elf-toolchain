@@ -1,41 +1,45 @@
-FROM ubuntu:20.04 AS builder
+# syntax=docker/dockerfile:1
 
-ENV DEBIAN_FRONTEND=noninteractive
+# Stage 1 - Build the toolchain
+FROM ubuntu:20.04
 
-RUN apt-get update && apt-get --no-install-recommends -y install build-essential wget xz-utils file \
-    zlib1g-dev apt-utils autoconf automake texinfo libmpc-dev libmpfr-dev libgmp-dev ca-certificates && \
-    rm -rf /var/lib/apt/lists/
+ARG MIPSEL=/cross-mipsel-none-elf
+ENV MIPSEL=${MIPSEL}
 
-FROM builder AS download
+# install dependencies
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive TZ=US/Central \
+    apt-get install -yq --no-install-recommends wget bzip2 \
+    build-essential apt-utils autoconf automake zlib1g-dev \
+    bison flex texinfo file ca-certificates libelf-dev
+RUN apt-get clean
 
-RUN wget -O binutils.tar.xz https://ftp.gnu.org/pub/gnu/binutils/binutils-2.36.tar.xz && \
-    wget -O gcc.tar.xz https://ftp.gnu.org/pub/gnu/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz && \
-    tar xf binutils.tar.xz && tar xf gcc.tar.xz
+# Build
+COPY ./toolchain.sh /tmp/toolchain.sh
+WORKDIR /tmp
+RUN ./toolchain.sh
 
-FROM builder AS environment
+# Strip executables
+RUN find ${MIPSEL}/bin -type f | xargs strip
+RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/plugin/gengtype
+RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/liblto_plugin.so
+RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/lto-wrapper
+RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/collect2
+RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/cc1plus
+RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/cc1
+RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/install-tools/fixincl
+RUN strip ${MIPSEL}/libexec/gcc/mipsel-none-elf/11.2.0/lto1
+RUN rm -rf ${MIPSEL}/share/locale/*
 
-ARG BINUTILS_VERSION=2.36
-ARG GCC_VERSION=11.1.0
-ARG TARGET=mipsel-none-elf
+# Stage 2 - Prepare minimal image
+FROM ubuntu:20.04
+ARG MIPSEL=/cross-mipsel-none-elf
+ENV MIPSEL=${MIPSEL}
+ENV PATH="${MIPSEL}/bin:$PATH"
 
-ENV MIPSEL /usr/local/cross-mipsel-none-elf
-ENV PATH $PATH:${MIPSEL}/bin
-
-FROM builder AS binutils
-
-RUN mkdir binutils_mipsel && cd binutils_mipsel && \
-    ../binutils-${BINUTILS_VERSION}/configure --prefix=${MIPSEL} --target=${TARGET} \
-    --disable-docs --disable-nls --with-float=soft && \
-    make && make install-strip
-
-FROM builder AS gcc
-
-RUN mkdir gcc_mipsel && cd gcc_mipsel && \
-    ../gcc-${GCC_VERSION}/configure --prefix=${MIPSEL} --target=${TARGET} \
-    --disable-docs --disable-nls --disable-libada --disable-libssp --disable-libquadmath --disable-libstdc++-v3 \
-    --with-float=soft --enable-languages=c,c++ --with-gnu-as --with-gnu-ld && \
-    make && make install-strip
-
-FROM builder AS delete
-
-RUN rm -rf binutils.tar.xz gcc.tar.xz binutils_mipsel gcc_mipsel
+COPY --from=0 ${MIPSEL} ${MIPSEL}
+RUN apt-get update && \
+    apt-get install -yq --no-install-recommends \
+    gcc g++ make && \
+    apt-get clean && \
+    apt autoremove -yq
